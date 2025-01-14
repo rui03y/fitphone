@@ -57,10 +57,14 @@
             background-color: #e9ecef;
         }
         .preview-container.iphone {
-            width: 375px; /* iPhone 12/13/14宽度 */
-            height: 812px; /* iPhone 12/13/14高度 */
+            width: 375px; /* iPhone宽度 */
+            height: 812px; /* iPhone高度 */
             border-radius: 20px;
             border: 1px solid #333;
+        }
+        .preview-container.default {
+            width: 100%;
+            height: 500px;
         }
         .preview-container iframe {
             width: 100%;
@@ -122,10 +126,10 @@
                 </div>
                 <div class="device-toggle">
                     <button class="toggle-button" onclick="switchToIphone()">iPhone尺寸预览</button>
-                    <button class="toggle-button" onclick="switchToFull()">默认尺寸预览</button>
+                    <button class="toggle-button" onclick="switchToDefault()">默认尺寸预览</button>
                 </div>
             </div>
-            <div class="preview-container" id="preview-container">
+            <div class="preview-container default" id="preview-container">
                 <iframe id="preview-iframe" src=""></iframe>
             </div>
         </div>
@@ -162,12 +166,14 @@
 
         function switchToIphone() {
             const previewContainer = document.getElementById('preview-container');
+            previewContainer.classList.remove('default');
             previewContainer.classList.add('iphone');
         }
 
-        function switchToFull() {
+        function switchToDefault() {
             const previewContainer = document.getElementById('preview-container');
             previewContainer.classList.remove('iphone');
+            previewContainer.classList.add('default');
         }
 
         function copyOutput() {
