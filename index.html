@@ -263,6 +263,7 @@
             </div>
             <div class="image-container"></div>
             <input type="text" id="url-input" placeholder="运营后台活动link or bigolive://web?url=">
+            <div class="alert" id="alert-message">!</div>
             <div class="button-group">
                 <button class="buttonen" onclick="encodeURL()">Encode to Deeplink</button>
                 <button class="buttonun" onclick="decodeURL()">Decode from Deeplink</button>
@@ -337,7 +338,20 @@
                 window.open(text, '_blank');
             }
         });
-
+        
+        function checkForError(input, output) {
+            const alertMessage = document.getElementById('alert-message');
+            if ((input.startsWith('bigolive://') && output.startsWith('bigolive://')) ||
+                (!input.startsWith('bigolive://') && !output.startsWith('bigolive://'))) {
+                alertMessage.style.display = 'block';
+                alertMessage.classList.add('fade-out');
+                setTimeout(() => {
+                    alertMessage.style.display = 'none';
+                    alertMessage.classList.remove('fade-out');
+                }, 3000);
+            }
+        }
+        
         function copyOutput() {
             const text = document.getElementById('output-box').textContent;
             navigator.clipboard.writeText(text).then(() => {
