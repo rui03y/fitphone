@@ -26,35 +26,48 @@
         }
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px;
             background-color: #ffffff;
             border-radius: 12px;
             padding: 25px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            display: flex;
+            flex-wrap: wrap;  /* 允许子元素换行，保证移动端自适应 */
+            justify-content: space-between;            
+            gap: 20px;
             animation: slideIn 0.5s ease-out;
         }
         .header {
             text-align: center;
             margin-bottom: 20px;
+            width: 100%;
         }
         .header h1 {
             font-size: 28px;
             font-weight: 700;
             color: #333;
         }
-        .mobile-container {
-            display: flex;
-            flex-direction: column;
+        
+        .image-container {
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: center;
         }
-        .desktop-container {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
+        .image-container img {
+            width: 40%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .image-container img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         .form-container {
-            flex: 0 0 30%;
+            flex: 1;
+            max-width: 380px;
             background-color: #fdfdfd;
             border-radius: 12px;
             padding: 20px;
@@ -72,10 +85,10 @@
         .form-container input[type="text"]:focus {
             box-shadow: 0 0 0 4px rgba(246, 134, 81, 0.3);
         }
-        .form-container .button-group {
+        .button-group {
             display: flex;
-            justify-content: space-between;
             gap: 10px;
+            justify-content: center;
         }
         .buttonen, .buttonun {
             flex: 1;
@@ -91,15 +104,22 @@
             background-color: #e67342;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
-        .output-box {
+        input[type="text"], .output-box {
             width: 100%;
             padding: 12px;
-            background-color: #f7f8fa;
-            border: 1px solid #dfe1e5;
-            border-radius: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            height: auto;
             min-height: 45px;
-            word-break: break-all;
-            margin-top: 10px;
+            background-color: #ffffff;
+            border: 1px solid #dfe1e5;
+            color: #1a1a1a;
+            border-radius: 8px;
+            outline: none;
+            transition: box-shadow 0.3s;
+        }
+        input[type="text"]:focus {
+            box-shadow: 0 0 0 4px rgba(246, 134, 81, 0.3);
         }
         .copy-button {
             margin-top: 15px;
@@ -109,37 +129,25 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
+            width: 100%;
             transition: background-color 0.3s;
         }
         .copy-button:hover {
             background-color: #1c5d39;
         }
         .preview-container {
-            flex: 0 0 70%;
+            flex: 2;
             background-color: #f7f8fa;
             border-radius: 12px;
             border: 1px solid #dfe1e5;
-            padding: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-        }
-        .preview-container.iphone {
-            width: 300px;
-            height: 640px;
-            border-radius: 10px;
-            border: 1px solid #333;
-        }
-        .preview-container.tablet {
-            width: 768px;
-            height: 1024px;
-            border-radius: 16px;
-            border: 1px solid #999;
-        }
-        .preview-container.default {
             width: 100%;
-            height: 500px;
+            max-width: 600px;
+            height: 80vh;
         }
         .preview-container iframe {
             width: 100%;
@@ -147,29 +155,97 @@
             border: none;
             border-radius: 8px;
         }
-        .device-toggle {
-            margin-top: 15px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        .toggle-button {
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .toggle-button:hover {
-            background-color: #0056b3;
-        }
         .description {
             margin-top: 10px;
             font-size: 14px;
             color: #666;
             text-align: center;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #f7f8fa;
+            border: 1px solid #dfe1e5;
+            border-radius: 8px;
+            word-break: break-all;
+            min-height: 45px;
+            color: #1a1a1a;
+            transition: box-shadow 0.3s;
+        }
+        .result:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .output-box {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .output-box:hover {
+            background-color: #e8f0fe;
+        }
+        .alert {
+            color: #ea4335;
+            font-size: 18px;
+            display: none;
+            margin-top: 10px;
+        }
+        .fade-out {
+            animation: fadeOut 3s forwards;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; display: none; }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes slideIn {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @media (max-width: 768px) {
+        .container {
+            flex-direction: column;  /* 改为上下排列，表单在上，预览区在下 */
+            align-items: center;
+        }
+        .form-container {
+            width: 100%;  /* 表单占据全部宽度 */
+        }
+        .preview-container {
+                height: 50vh;  /* 小屏幕时预览区高度减小 */
+            }
+        }
+        @media (max-width: 576px) {
+            .preview-container {
+                height: 45vh;  /* 超小屏幕时预览区高度进一步缩小 */
+            }
+            .form-container input[type="text"],
+            .buttonen,
+            .buttonun,
+            .copy-button {
+                padding: 10px;  /* 减小输入框和按钮的内边距，保持更紧凑布局 */
+            }
+        }
+
+
+        .link-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+        }
+        .link-container a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+        .link-container a:hover {
+            color: #0049b0;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -179,26 +255,28 @@
         <h1>Bigo广告Deeplink转换器</h1>
     </div>
     <div class="container">
-        <div class="mobile-container desktop-container">
-            <div class="form-container">
-                <input type="text" id="url-input" placeholder="运营后台活动link or bigolive://web?url=">
-                <div class="button-group">
-                    <button class="buttonen" onclick="encodeURL()">Encode to Deeplink</button>
-                    <button class="buttonun" onclick="decodeURL()">Decode from Deeplink</button>
-                </div>
-                <div class="output-box" id="output-box">点击结果可跳转</div>
-                <button class="copy-button" onclick="copyOutput()">Copy</button>
-                <div class="description">For Android users: if deeplink does not open in the browser, click on the deeplink here to open it.</div>
-                <div class="description">Page preview:</div>
-                <div class="device-toggle">
-                    <button class="toggle-button" onclick="switchToIphone()">iPhone尺寸预览</button>
-                    <button class="toggle-button" onclick="switchToTablet()">iPad尺寸预览</button>
-                    <button class="toggle-button" onclick="switchToDefault()">默认尺寸预览</button>
-                </div>
+        <div class="form-container">
+            <div class="image-container">
+                <a href="https://bigotopr.asia/uidjump/" target="_blank">
+                    <img src="rosedino.gif" alt="Loading...">
+                </a>
             </div>
-            <div class="preview-container default" id="preview-container">
-                <iframe id="preview-iframe" src=""></iframe>
+            <div class="image-container"></div>
+            <input type="text" id="url-input" placeholder="运营后台活动link or bigolive://web?url=">
+            <div class="button-group">
+                <button class="buttonen" onclick="encodeURL()">Encode to Deeplink</button>
+                <button class="buttonun" onclick="decodeURL()">Decode from Deeplink</button>
             </div>
+            <div class="result">
+                <div>点击结果可跳转</div>
+                <div id="output-box" class="output-box"></div>
+            </div>
+            <button class="copy-button" onclick="copyOutput()">Copy</button>
+            <div class="description"></div>
+            <div class="description">互转&Page preview</div>
+        </div>
+        <div class="preview-container" id="preview-container">
+            <iframe id="preview-iframe" src=""></iframe>
         </div>
     </div>
 
@@ -214,6 +292,12 @@
             }
             document.getElementById('output-box').textContent = fullEncodedURL;
             document.getElementById('preview-iframe').src = fullEncodedURL.replace('bigolive://web?url=', '');
+
+            // Update preview area
+            const previewIframe = document.getElementById('preview-iframe');
+            previewIframe.src = urlInput.startsWith('bigolive://web?url=') ? decodeURIComponent(urlInput.replace('bigolive://web?url=', '')) : urlInput;
+
+            checkForError(urlInput, fullEncodedURL);
         }
 
         function decodeURL() {
@@ -226,20 +310,25 @@
             document.getElementById('preview-iframe').src = decodedURL;
         }
 
-        function switchToIphone() {
-            const previewContainer = document.getElementById('preview-container');
-            previewContainer.className = 'preview-container iphone';
+        function checkForError(input, output) {
+            const alertMessage = document.getElementById('alert-message');
+            if ((input.startsWith('bigolive://') && output.startsWith('bigolive://')) ||
+                (!input.startsWith('bigolive://') && !output.startsWith('bigolive://'))) {
+                alertMessage.style.display = 'block';
+                alertMessage.classList.add('fade-out');
+                setTimeout(() => {
+                    alertMessage.style.display = 'none';
+                    alertMessage.classList.remove('fade-out');
+                }, 3000);
+            }
         }
 
-        function switchToTablet() {
-            const previewContainer = document.getElementById('preview-container');
-            previewContainer.className = 'preview-container tablet';
-        }
-
-        function switchToDefault() {
-            const previewContainer = document.getElementById('preview-container');
-            previewContainer.className = 'preview-container default';
-        }
+        document.getElementById('output-box').addEventListener('click', function() {
+            const text = this.textContent;
+            if (confirm('Do you want to open this link?')) {
+                window.open(text, '_blank');
+            }
+        });
 
         function copyOutput() {
             const text = document.getElementById('output-box').textContent;
@@ -254,6 +343,32 @@
             const text = this.textContent;
             if (confirm('Do you want to open this link?')) {
                 window.open(text, '_blank');
+            }
+        });
+        window.addEventListener('resize', function() {
+            const previewIframe = document.getElementById('preview-iframe');
+            if (window.innerWidth < 768) {
+                previewIframe.style.height = '45vh';
+            } else {
+                previewIframe.style.height = '70vh';
+            }
+        });
+
+
+                // Simulate mobile view for preview iframe when in landscape mode
+                window.addEventListener('resize', function() {
+            const previewIframe = document.getElementById('preview-iframe');
+            if (window.innerWidth > window.innerHeight) {
+                previewIframe.classList.add('mobile-preview');
+                previewIframe.style.width = '375px';
+                previewIframe.style.height = '667px';
+                previewIframe.style.display = 'flex';
+                previewIframe.style.justifyContent = 'center';
+                previewIframe.style.alignItems = 'center';
+            } else {
+                previewIframe.classList.remove('mobile-preview');
+                previewIframe.style.width = '100%';
+                previewIframe.style.height = '100%';
             }
         });
     </script>
