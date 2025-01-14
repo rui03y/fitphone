@@ -353,24 +353,6 @@
                 previewIframe.style.height = '70vh';
             }
         });
-
-
-                // Simulate mobile view for preview iframe when in landscape mode
-                window.addEventListener('resize', function() {
-            const previewIframe = document.getElementById('preview-iframe');
-            if (window.innerWidth > window.innerHeight) {
-                previewIframe.classList.add('mobile-preview');
-                previewIframe.style.width = '320px';
-                previewIframe.style.height = '750px';
-                previewIframe.style.display = 'flex';
-                previewIframe.style.justifyContent = 'center';
-                previewIframe.style.alignItems = 'center';
-            } else {
-                previewIframe.classList.remove('mobile-preview');
-                previewIframe.style.width = '100%';
-                previewIframe.style.height = '100%';
-            }
-        });
     </script>
 </body>
 </html>
